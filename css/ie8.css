@@ -1,0 +1,25 @@
+.container{
+	behavior: url(http://spt/moodle/coursewizard/css/pie.htc);
+}
+
+.contentw .buttons div.button{
+	behavior: url(http://spt/moodle/coursewizard/css/pie.htc);
+	position: relative;
+}
+
+
+html * .contentw .text {margin-top: expression(((this.parentElement.offsetHeight/2)-(parseInt(this.offsetHeight)/2) -2) <0 ? "0" : (this.parentElement.offsetHeight/2)-(parseInt(this.offsetHeight)/2) -2 +'px') ;}
+html * .contentw .buttons {margin-top: expression(((this.parentElement.offsetHeight/2)-(parseInt(this.offsetHeight)/2) -2) <0 ? "0" : (this.parentElement.offsetHeight/2)-(parseInt(this.offsetHeight)/2) -2 +'px') ;}
+
+
+
+
+
+
+
+
+
+
+
+
+

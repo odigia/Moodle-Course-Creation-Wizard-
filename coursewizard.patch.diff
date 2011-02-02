@@ -1,0 +1,211 @@
+diff -ru a/course/format/topics/format.php b/course/format/topics/format.php
+--- a/course/format/topics/format.php	2008-12-11 08:04:10.000000000 +0200
++++ b/course/format/topics/format.php	2011-01-14 14:59:00.899007300 +0200
+@@ -219,15 +219,18 @@
+             echo '</td>';
+ 
+             echo '<td class="right side">';
+-            if ($displaysection == $section) {      // Show the zoom boxes
+-                echo '<a href="view.php?id='.$course->id.'&amp;topic=0#section-'.$section.'" title="'.$strshowalltopics.'">'.
+-                     '<img src="'.$CFG->pixpath.'/i/all.gif" alt="'.$strshowalltopics.'" /></a><br />';
+-            } else {
+-                $strshowonlytopic = get_string('showonlytopic', '', $section);
+-                echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section.'" title="'.$strshowonlytopic.'">'.
+-                     '<img src="'.$CFG->pixpath.'/i/one.gif" alt="'.$strshowonlytopic.'" /></a><br />';
+-            }
+-
++            if (!strstr($_SERVER["HTTP_REFERER"],"coursewizard"))
++            {
++            	if ($displaysection == $section ) {      // Show the zoom boxes
++              	  echo '<a href="view.php?id='.$course->id.'&amp;topic=0#section-'.$section.'" title="'.$strshowalltopics.'">'.
++                	     '<img src="'.$CFG->pixpath.'/i/all.gif" alt="'.$strshowalltopics.'" /></a><br />';
++            	} else {
++              	  $strshowonlytopic = get_string('showonlytopic', '', $section);
++                	echo '<a href="view.php?id='.$course->id.'&amp;topic='.$section.'" title="'.$strshowonlytopic.'">'.
++                  	   '<img src="'.$CFG->pixpath.'/i/one.gif" alt="'.$strshowonlytopic.'" /></a><br />';
++            	}
++						}
++						
+             if (isediting($course->id) && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
+                 if ($course->marker == $section) {  // Show the "light globe" on/off
+                     echo '<a href="view.php?id='.$course->id.'&amp;marker=0&amp;sesskey='.$USER->sesskey.'#section-'.$section.'" title="'.$strmarkedthistopic.'">'.
+diff -ru a/course/format/weeks/format.php b/course/format/weeks/format.php
+--- a/course/format/weeks/format.php	2008-12-11 08:04:10.000000000 +0200
++++ b/course/format/weeks/format.php	2010-11-18 10:52:39.769559900 +0200
+@@ -218,15 +218,18 @@
+ 
+             echo '<td class="right side">';
+ 
+-            if ($displaysection == $section) {
+-                echo '<a href="view.php?id='.$course->id.'&amp;week=0#section-'.$section.'" title="'.$strshowallweeks.'">'.
+-                     '<img src="'.$CFG->pixpath.'/i/all.gif" class="icon wkall" alt="'.$strshowallweeks.'" /></a><br />';
+-            } else {
+-                $strshowonlyweek = get_string("showonlyweek", "", $section);
+-                echo '<a href="view.php?id='.$course->id.'&amp;week='.$section.'" title="'.$strshowonlyweek.'">'.
+-                     '<img src="'.$CFG->pixpath.'/i/one.gif" class="icon wkone" alt="'.$strshowonlyweek.'" /></a><br />';
+-            }
+-
++            if (!strstr($_SERVER["HTTP_REFERER"],"coursewizard"))
++            {
++            	if ($displaysection == $section) {
++              	  echo '<a href="view.php?id='.$course->id.'&amp;week=0#section-'.$section.'" title="'.$strshowallweeks.'">'.
++                	     '<img src="'.$CFG->pixpath.'/i/all.gif" class="icon wkall" alt="'.$strshowallweeks.'" /></a><br />';
++            	} else {
++              	  $strshowonlyweek = get_string("showonlyweek", "", $section);
++                	echo '<a href="view.php?id='.$course->id.'&amp;week='.$section.'" title="'.$strshowonlyweek.'">'.
++                  	   '<img src="'.$CFG->pixpath.'/i/one.gif" class="icon wkone" alt="'.$strshowonlyweek.'" /></a><br />';
++            	}
++						}
++					
+             if (isediting($course->id) && has_capability('moodle/course:update', get_context_instance(CONTEXT_COURSE, $course->id))) {
+                 if ($thissection->visible) {        // Show the hide/show eye
+                     echo '<a href="view.php?id='.$course->id.'&amp;hide='.$section.'&amp;sesskey='.$USER->sesskey.'#section-'.$section.'" title="'.$strweekhide.'">'.
+diff -ru a/course/moodleform_mod.php b/course/moodleform_mod.php
+--- a/course/moodleform_mod.php	2008-10-14 09:20:44.000000000 +0300
++++ b/course/moodleform_mod.php	2010-08-13 13:39:31.649610200 +0300
+@@ -33,11 +33,14 @@
+      */
+     var $_features;
+ 
+-    function moodleform_mod($instance, $section, $cm) {
++    function moodleform_mod($instance, $section, $cm, $customaction=null) {
+         $this->_instance = $instance;
+         $this->_section = $section;
+         $this->_cm = $cm;
+-        parent::moodleform('modedit.php');
++        if ($customaction == null)
++        	parent::moodleform('modedit.php');
++	else
++        	parent::moodleform($customaction);
+     }
+ 
+     /**
+diff -ru a/lib/editor/htmlarea/htmlarea.php b/lib/editor/htmlarea/htmlarea.php
+--- a/lib/editor/htmlarea/htmlarea.php	2009-08-28 09:05:36.000000000 +0300
++++ b/lib/editor/htmlarea/htmlarea.php	2011-01-18 16:40:01.512975900 +0200
+@@ -1,7 +1,7 @@
+ <?php
+     include("../../../config.php");
+     require_once($CFG->dirroot.'/lib/languages.php');
+-
++    
+     $id            = optional_param('id', SITEID, PARAM_INT);
+     $httpsrequired = optional_param('httpsrequired', 0, PARAM_BOOL); //flag indicating editor on page with required https
+ 
+@@ -1097,27 +1097,27 @@
+ 
+ HTMLArea.prototype._unnestBlockWalk = function(node, unnestingParent) {
+     if (HTMLArea.RE_blocktag.test(node.nodeName)) {
+-	if (unnestingParent) {
+-	    if (node.nextSibling) {
+-		var splitNode = this._doc.createElement(unnestingParent.nodeName.toLowerCase());
+-		while (node.nextSibling) {
+-		    splitNode.appendChild(node.nextSibling);
+-		}
+-		unnestingParent.parentNode.insertBefore(splitNode, unnestingParent.nextSibling);
+-	    }
+-	    unnestingParent.parentNode.insertBefore(node, unnestingParent.nextSibling);
+-	    return;
+-	}
+-	else if (node.firstChild) {
+-	    this._unnestBlockWalk(node.firstChild, node);
+-	}
++        if (unnestingParent) {
++            if (node.nextSibling) {
++                var splitNode = this._doc.createElement(unnestingParent.nodeName.toLowerCase());
++                while (node.nextSibling) {
++                    splitNode.appendChild(node.nextSibling);
++                }
++                unnestingParent.parentNode.insertBefore(splitNode, unnestingParent.nextSibling);
++            }
++            unnestingParent.parentNode.insertBefore(node, unnestingParent.nextSibling);
++            return;
++        }
++        else if (node.firstChild) {
++            this._unnestBlockWalk(node.firstChild, node);
++        }
+     } else {
+-	if (node.firstChild) {
+-	    this._unnestBlockWalk(node.firstChild, null);
+-	}
++        if (node.firstChild) {
++            this._unnestBlockWalk(node.firstChild, null);
++        }
+     }
+     if (node.nextSibling) {
+-	this._unnestBlockWalk(node.nextSibling, unnestingParent);
++        this._unnestBlockWalk(node.nextSibling, unnestingParent);
+     }
+ }
+ 
+@@ -2404,10 +2404,10 @@
+                   "Sorry, your Gecko is not supported.");
+             return false;
+         }
+-        if (navigator.productSub < 20030210) {
++/*        if (navigator.productSub < 20030210) {
+             alert("Mozilla < 1.3 Beta is not supported!\n" +
+                   "I'll try, though, but it might not work.");
+-        }
++        } */
+     }
+     if(HTMLArea.is_safari) {
+         return false;
+@@ -2564,9 +2564,9 @@
+         var closed;
+         var i;
+         var root_tag = (root.nodeType == 1) ? root.tagName.toLowerCase() : '';
+-	if (HTMLArea.RE_junktag.test(root_tag)) {
+-	    return '';
+-	}
++        if (HTMLArea.RE_junktag.test(root_tag)) {
++            return '';
++        }
+         if (HTMLArea.is_ie && root_tag == "head") {
+             if (outputRoot)
+                 html += "<head>";
+diff -ru a/lib/formslib.php b/lib/formslib.php
+--- a/lib/formslib.php	2009-09-27 09:05:42.000000000 +0300
++++ b/lib/formslib.php	2011-01-18 16:25:19.962148300 +0200
+@@ -354,7 +354,8 @@
+             }
+ 
+             $data = $mform->exportValues(null, true);
+-            $moodle_val = $this->validation($data, $files);
++//            $moodle_val = $this->validation($data, $files);
++            $moodle_val = true;
+             if ((is_array($moodle_val) && count($moodle_val)!==0)) {
+                 // non-empty array means errors
+                 foreach ($moodle_val as $element=>$msg) {
+@@ -817,7 +818,7 @@
+         global $CFG;
+ 
+         static $formcounter = 1;
+-
++        
+         HTML_Common::HTML_Common($attributes);
+         $target = empty($target) ? array() : array('target' => $target);
+         $this->_formName = $formName;
+diff -ru a/lib/weblib.php b/lib/weblib.php
+--- a/lib/weblib.php	2010-03-11 08:03:24.000000000 +0200
++++ b/lib/weblib.php	2011-01-18 16:23:50.570865100 +0200
+@@ -2524,7 +2524,7 @@
+            "  YAHOO.util.Connect.asyncRequest('GET','".$CFG->wwwroot."/login/environment.php?sesskey=".sesskey()."&amp;flashversion='+flashversion.major+'.'+flashversion.minor+'.'+flashversion.release);\n".
+            "</script>";
+     }
+-
++        
+ 
+ /// Add the required stylesheets
+     $stylesheetshtml = '';
+@@ -2700,6 +2700,10 @@
+     // Create class and id for this page
+ 
+     page_id_and_class($pageid, $pageclass);
++    if ($pageid == "coursewizard-step8")
++    	$pageid = "course-view";
++    if ($pageclass == "coursewizard")
++    	$pageclass = "course";
+ 
+     $pageclass .= ' course-'.$COURSE->id;
+ 

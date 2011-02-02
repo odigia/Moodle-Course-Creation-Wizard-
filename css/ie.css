@@ -1,0 +1,42 @@
+.container{
+	behavior: url(http://spt/moodle/coursewizard/css/pie.htc);
+}
+
+.contentw .buttons div.button{
+	behavior: url(http://spt/moodle/coursewizard/css/pie.htc);
+}
+
+
+*+html .contentw .buttons div.button{
+	display: inline;
+	zoom: 1;
+}
+
+* html .contentw .buttons div.button{
+	display: inline;
+	zoom: 1;
+}
+
+*+html .contentw .textwrapper{
+	margin-top: 75px;
+}	
+
+* html .contentw .textwrapper{
+	margin-top: 75px;
+}
+
+html * .contentw .text {margin-top: expression(((this.parentElement.offsetHeight/2)-(parseInt(this.offsetHeight)/2) -2) <0 ? "0" : (this.parentElement.offsetHeight/2)-(parseInt(this.offsetHeight)/2) -2 +'px') ;}
+html * .contentw .buttons {margin-top: expression(((this.parentElement.offsetHeight/2)-(parseInt(this.offsetHeight)/2) -2) <0 ? "0" : (this.parentElement.offsetHeight/2)-(parseInt(this.offsetHeight)/2) -2 +'px') ;}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,144 @@
+﻿/* Fonts
+-------------------------------------------------------------- */
+
+@font-face {
+        font-family: 'HelveticaM';
+        src: url('../fonts/helveticaneue-medium-webfont.eot');
+        src: local('☺'), url('../fonts/helveticaneue-medium-webfont.woff') format('woff'), url('../fonts/helveticaneue-medium-webfont.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+}
+
+@font-face {
+        font-family: 'HelveticaB';
+        src: url('../fonts/helveticaneue-bold-webfont.eot');
+        src: local('☺'), url('../fonts/helveticaneue-bold-webfont.woff') format('woff'), url('../fonts/helveticaneue-bold-webfont.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+}
+
+/* Layout
+-------------------------------------------------------------- */
+
+.placer{
+
+}
+
+.container{
+        width: 575px;
+        height: 370px;
+        -webkit-box-shadow: 0px 0px 10px #757575;
+        -moz-box-shadow: 0px 0px 10px #757575;
+        box-shadow: 0px 0px 10px #757575;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        position: relative;
+        border: 1px solid #B6B6B6;
+        background-color: #FFF;
+        margin: auto;
+        font-size: 17px;
+}
+
+.messagew{
+        position: absolute;
+        width: 420px;
+        height: 25px;
+        background-image: url(../img/message.png);
+        background-repeat: no-repeat;
+        font-family: 'HelveticaB';
+        color: #FFF;
+        font-size: 20px;
+        padding: 10px 30px 10px 20px;
+        text-align: center;
+        /* border: 1px solid #000; */
+        top: 25px;
+        left: -15px;
+}
+
+.contentw{
+        font-family: 'HelveticaM';
+        color: #737373;
+        padding: 15px 50px;
+        margin-top: 65px;
+        text-align: center;
+        line-height: 24px;
+        height: 250px;
+}
+.contentw .textwrapper{
+        display: table-cell;
+        vertical-align: middle;
+        height: 190px;
+        width: 473px;
+        }
+        
+.contentw .row{
+        display: table-row;
+}
+.contentw .text{
+                
+}
+.contentw .buttonswrapper{
+        display: table-cell;
+        vertical-align: middle;
+        height: 80px;
+        width: 473px;
+        
+}
+.contentw .buttons{
+        
+}
+.contentw .buttons div.button{
+        display: inline-block;
+        color: #FFF;
+        font-family: 'HelveticaB';
+        font-size: 20px;
+        padding: 8px 35px 10px;
+        background-color: #5AA230;
+        border: none;
+        -moz-border-radius: 15px;
+        -webkit-border-radius: 15px;
+        border-radius: 15px;
+        background-image: -moz-linear-gradient(100% 100% 90deg, #579D2F, #65B636);
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#65B636), to(#579D2F));
+        -pie-background: linear-gradient(bottom, #579D2F, #65B636);
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+        -moz-box-shadow: 0px 0px 7px rgba(0,0,0,0.5);
+        -webkit-text-shadow: 1px 1px 1px #000;
+        text-shadow: 0px 1px 0px #478126;
+        cursor: pointer;
+}
+
+.contentw .buttons div.button a{
+        font-size: 20px;
+        color: #FFF;
+        text-decoration: none;
+}
+.contentw .buttons div.button a:hover{
+        text-decoration: none;
+}
+.contentw .buttons a{
+        color: #6e6e6e;
+        text-transform: capitalize;
+        font-size: 13px;
+        text-decoration: underline;
+}
+
+div#nyroModalWrapper{
+        /* background-color: transparent;
+        border: none; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
